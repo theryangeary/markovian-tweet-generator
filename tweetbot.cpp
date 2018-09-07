@@ -47,7 +47,58 @@ int main( int argc, char* argv[] )
         return 0;
     }
     
+    twitCurl twitterObj;
+    std::string tmpStr, tmpStr2;
+    std::string replyMsg;
+    char tmpBuf[1024];
 
+    /* Set twitter username and password */
+    twitterObj.setTwitterUsername( userName );
+    twitterObj.setTwitterPassword( passWord );
 
+    /* OAuth flow begins */
+    /* Step 0: Set OAuth related params. These are got by registering your app at twitter.com */
+    twitterObj.getOAuth().setConsumerKey( std::string( "uHcsBRso2bnduxflFwKDUfGFu" ) );
+    twitterObj.getOAuth().setConsumerSecret( std::string( "eCOvdRZtYohTpOwDiGJxS23MRG8AJK1tg4LfWtt0yDdUOLRVbP" ) );
+
+    /* Step 1: Check if we alredy have OAuth access token from a previous run */
+    std::string myOAuthAccessTokenKey("");
+    std::string myOAuthAccessTokenSecret("");
+    std::ifstream oAuthTokenKeyIn;
+    std::ifstream oAuthTokenSecretIn;
+
+    oAuthTokenKeyIn.open( "access_token" );
+    oAuthTokenSecretIn.open( "access_token_secret");
+
+    memset( tmpBuf, 0, 1024 );
+    oAuthTokenKeyIn >> tmpBuf;
+    myOAuthAccessTokenKey = tmpBuf;
+
+    memset( tmpBuf, 0, 1024 );
+    oAuthTokenSecretIn >> tmpBuf;
+    myOAuthAccessTokenSecret = tmpBuf;
+
+    oAuthTokenKeyIn.close();
+    oAuthTokenSecretIn.close();
+
+    /* If we already have these keys, then no need to go through auth again */
+    printf( "\nUsing:\nKey: %s\nSecret: %s\n\n", myOAuthAccessTokenKey.c_str(), myOAuthAccessTokenSecret.c_str() );
+
+    twitterObj.getOAuth().setOAuthTokenKey( myOAuthAccessTokenKey );
+    twitterObj.getOAuth().setOAuthTokenSecret( myOAuthAccessTokenSecret );
+    
+    /* OAuth flow ends */
+
+    /* Account credentials verification */
+    if( twitterObj.accountVerifyCredGet() )
+    {
+        twitterObj.getLastWebResponse( replyMsg );
+        printf( "\ntwitterClient:: twitCurl::accountVerifyCredGet web response:\n%s\n", replyMsg.c_str() );
+    }
+    else
+    {
+        twitterObj.getLastCurlError( replyMsg );
+        printf( "\ntwitterClient:: twitCurl::accountVerifyCredGet error:\n%s\n", replyMsg.c_str() );
+    }
 
 }

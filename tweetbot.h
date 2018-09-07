@@ -16,3 +16,4 @@
 #include <vector>
 #include "oauthlib.h"
 #include "curl/curl.h"
+#include "include/twitcurl.h"
