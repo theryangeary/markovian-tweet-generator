@@ -11,3 +11,4 @@ void Node::addLink(Node* target) {
 void Node::setValue(std::string value) {
   this.value = value;
 }
+

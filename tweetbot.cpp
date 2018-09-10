@@ -170,7 +170,7 @@ int main( int argc, char* argv[] )
 
     std::unordered_map<std::string, Node*> dict;
     Node* currentNode;
-    Node* startNode;
+    Node* startNode = new Node();
     startNode->value = START;
     dict.insert({START, startNode});
     std::string tweet;
@@ -183,6 +183,7 @@ int main( int argc, char* argv[] )
         do {
           std::cout << word << std::endl;
           word = tweet.substr(pos, tweet.find(" "));
-        } while (tweet != "");
+          pos = tweet.find(" ") + 1;
+        } while (pos < tweet.length());
     }
 }
