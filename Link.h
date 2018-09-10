@@ -4,7 +4,7 @@
 class Node;
 
 class Link {
-  int weight;
+  int weight = 0;
   Node* target;
   public:
     void increaseWeight();
