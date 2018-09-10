@@ -181,9 +181,9 @@ int main( int argc, char* argv[] )
       currentNode = startNode;
       int pos = 0;
         do {
+          word = tweet.substr(pos, tweet.find(" ", pos) - pos);
+          pos = tweet.find(" ", pos) + 1;
           std::cout << word << std::endl;
-          word = tweet.substr(pos, tweet.find(" "));
-          pos = tweet.find(" ") + 1;
         } while (pos < tweet.length());
     }
 }
