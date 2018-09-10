@@ -158,12 +158,31 @@ int main( int argc, char* argv[] )
         printf( "\ntwitterClient:: twitCurl::accountVerifyCredGet error:\n%s\n", replyMsg.c_str() );
     }
 
-    twitterObj.timelineUserGet(true, false, 4, "BarackObama", false, true);
+    int numTweets = 4;
+    twitterObj.timelineUserGet(true, false, numTweets, "BarackObama", false, true);
     twitterObj.getLastWebResponse(replyMsg);
     json response2 = json::parse(replyMsg);
 
     std::cout << response2 << std::endl;
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < numTweets - 1; i++) {
       std::cout << response2[i].at("full_text").get<std::string>() << std::endl;
+    }
+
+    std::unordered_map<std::string, Node*> dict;
+    Node* currentNode;
+    Node* startNode;
+    startNode->value = START;
+    dict.insert({START, startNode});
+    std::string tweet;
+    std::string word;
+
+    for (int i = 0; i < numTweets - 1; i++) {
+      tweet = response2[i].at("full_text").get<std::string>();
+      currentNode = startNode;
+      int pos = 0;
+        do {
+          std::cout << word << std::endl;
+          word = tweet.substr(pos, tweet.find(" "));
+        } while (tweet != "");
     }
 }

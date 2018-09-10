@@ -13,8 +13,13 @@
 #include <string.h>
 #include <sstream>
 #include <cstring>
+#include <unordered_map>
 #include <vector>
 #include "oauthlib.h"
 #include "curl/curl.h"
+#include "Node.h"
+#include "Link.h"
 #include "include/twitcurl.h"
 #include "include/nlohmann/json.hpp"
+
+#define START "ASTARTINGWORDSORIDICULOUSITWOULDNEVERBEUSEDINATWEET"
