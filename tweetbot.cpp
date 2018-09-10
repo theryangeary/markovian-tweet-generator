@@ -171,6 +171,7 @@ int main( int argc, char* argv[] )
     std::unordered_map<std::string, Node*> dict;
     Node* currentNode;
     Node* startNode = new Node();
+    Node* nextNode;
     startNode->value = START;
     dict.insert({START, startNode});
     std::string tweet;
@@ -199,6 +200,16 @@ int main( int argc, char* argv[] )
           word = tweet.substr(pos, tweet.find(" ", pos) - pos);
           pos = tweet.find(" ", pos) + 1;
           std::cout << word << std::endl;
+          std::unordered_map<string, Node*>::const_iterator included = dict.find(word);
+          if (included == dict.end()) {
+            nextNode = new Node();
+            nextNode->value = word; 
+            dict.insert({word, nextNode});
+          }
+          else {
+            nextNode = included->second;
+          }
+
         } while (tweet.find(" ", pos) != std::string::npos);
     }
 }
