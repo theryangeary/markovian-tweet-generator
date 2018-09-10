@@ -10,6 +10,3 @@ class Link {
     void increaseWeight();
 } Link;
 
-void Link::increaseWeight() {
-  this->weight++;
-}  
