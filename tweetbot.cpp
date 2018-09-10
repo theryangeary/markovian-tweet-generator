@@ -179,11 +179,26 @@ int main( int argc, char* argv[] )
     for (int i = 0; i < numTweets - 1; i++) {
       tweet = response2[i].at("full_text").get<std::string>();
       currentNode = startNode;
+
+      std::locale loc;
+      std::string str = tweet;
+
       int pos = 0;
+      for (std::string::iterator it=str.begin(); it!=str.end() - 1; ++it)
+      {
+        if (!std::isalpha(*it, loc) && !(*it == ' ')) {
+          str.erase(pos, 1);
+        }
+        pos++;
+      }
+
+      tweet = str;
+
+      pos = 0;
         do {
           word = tweet.substr(pos, tweet.find(" ", pos) - pos);
           pos = tweet.find(" ", pos) + 1;
           std::cout << word << std::endl;
-        } while (pos < tweet.length());
+        } while (tweet.find(" ", pos) != std::string::npos);
     }
 }
