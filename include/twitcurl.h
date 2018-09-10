@@ -6,7 +6,7 @@
 #include <cstring>
 #include <vector>
 #include "oauthlib.h"
-#include "curl/curl.h"
+#include "include/curl/curl.h"
 
 /* Few common types used by twitCurl */
 namespace twitCurlTypes
@@ -62,7 +62,8 @@ public:
 	                      const bool includeRetweets /* in */,
                           const unsigned int tweetCount /* in */,
                           const std::string userInfo = "" /* in */,
-                          const bool isUserId = false /* in */ );
+                          const bool isUserId = false /* in */, 
+                          const bool includeExtended = false /* in */ );
     bool featuredUsersGet();
     bool mentionsGet( const std::string sinceId = "" /* in */ );
 
@@ -138,6 +139,11 @@ public:
     void setProxyServerPort( const std::string& proxyServerPort /* in */ );
     void setProxyUserName( const std::string& proxyUserName /* in */ );
     void setProxyPassword( const std::string& proxyPassword /* in */ );
+
+    /* cURL Interface APIs */
+    std::string& getInterface();
+    void setInterface( const std::string& Interface /* in */ );
+
     
     /* Clones this object */
     twitCurl* clone();
@@ -152,13 +158,15 @@ private:
     bool m_curlProxyParamsSet;
     bool m_curlLoginParamsSet;
     bool m_curlCallbackParamsSet;
+    bool m_curlInterfaseParamSet;
 
     /* cURL proxy data */
     std::string m_proxyServerIp;
     std::string m_proxyServerPort;
     std::string m_proxyUserName;
     std::string m_proxyPassword;
-
+    std::string m_Interface;
+    
     /* Twitter data */
     std::string m_twitterUsername;
     std::string m_twitterPassword;
@@ -173,6 +181,7 @@ private:
     /* Private methods */
     void clearCurlCallbackBuffers();
     void prepareCurlProxy();
+    void prepareCurlInterface();
     void prepareCurlCallback();
     void prepareCurlUserPass();
     void prepareStandardParams();

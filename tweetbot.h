@@ -10,10 +10,11 @@
    Using example code from https://github.com/swatkat/twitcurl/tree/master/twitterClient
    */
 
-#include <string>
+#include <string.h>
 #include <sstream>
 #include <cstring>
 #include <vector>
 #include "oauthlib.h"
 #include "curl/curl.h"
 #include "include/twitcurl.h"
+#include "include/nlohmann/json.hpp"
