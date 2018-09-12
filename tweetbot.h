@@ -17,9 +17,44 @@
 #include <vector>
 #include "oauthlib.h"
 #include "curl/curl.h"
-#include "Node.h"
-#include "Link.h"
 #include "include/twitcurl.h"
 #include "include/nlohmann/json.hpp"
 
 #define START "ASTARTINGWORDSORIDICULOUSITWOULDNEVERBEUSEDINATWEET"
+
+class Node {
+  public:
+    std::vector<int> weights;
+    std::vector<Node* > targets;
+    std::string value;
+    void setValue(std::string value);
+    bool increaseWeight(Node* targetNode);
+    bool increaseWeight(int index);
+    void addLink(Node* newNode);
+} ;
+
+void Node::setValue(std::string value) {
+  this->value = value;
+}
+
+bool Node::increaseWeight(Node* targetNode) {
+  int i = 0;
+  for (std::vector<Node*>::iterator it = targets.begin();
+      it != targets.end(); it++) {
+    if (targetNode == *it) {
+      weights[i]++;
+      return true;
+    }
+  }
+  return false;
+}
+
+bool Node::increaseWeight(int index) {
+  weights[index]++;
+}
+
+void Node::addLink(Node* newNode) {
+  weights.push_back(1);
+  targets.push_back(newNode);
+}
+

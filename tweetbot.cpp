@@ -185,6 +185,8 @@ int main( int argc, char* argv[] )
       std::string str = tweet;
 
       int pos = 0;
+      bool linkFound = false;
+
       for (std::string::iterator it=str.begin(); it!=str.end() - 1; ++it)
       {
         if (!std::isalpha(*it, loc) && !(*it == ' ')) {
@@ -197,10 +199,12 @@ int main( int argc, char* argv[] )
 
       pos = 0;
         do {
+
           word = tweet.substr(pos, tweet.find(" ", pos) - pos);
           pos = tweet.find(" ", pos) + 1;
           std::cout << word << std::endl;
-          std::unordered_map<string, Node*>::const_iterator included = dict.find(word);
+          std::unordered_map<std::string, Node*>::const_iterator included = dict.find(word);
+
           if (included == dict.end()) {
             nextNode = new Node();
             nextNode->value = word; 
@@ -208,6 +212,10 @@ int main( int argc, char* argv[] )
           }
           else {
             nextNode = included->second;
+          } 
+
+          if (!currentNode->increaseWeight(nextNode)) {
+            currentNode->addLink(nextNode);
           }
 
         } while (tweet.find(" ", pos) != std::string::npos);
