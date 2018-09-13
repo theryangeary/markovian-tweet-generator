@@ -163,9 +163,9 @@ int main( int argc, char* argv[] )
     twitterObj.getLastWebResponse(replyMsg);
     json response2 = json::parse(replyMsg);
 
-    std::cout << response2 << std::endl;
+    //std::cout << response2 << std::endl;
     for (int i = 0; i < numTweets - 1; i++) {
-      std::cout << response2[i].at("full_text").get<std::string>() << std::endl;
+      //std::cout << response2[i].at("full_text").get<std::string>() << std::endl;
     }
 
     std::unordered_map<std::string, Node*> dict;
@@ -202,7 +202,7 @@ int main( int argc, char* argv[] )
 
           word = tweet.substr(pos, tweet.find(" ", pos) - pos);
           pos = tweet.find(" ", pos) + 1;
-          std::cout << word << std::endl;
+          //std::cout << word << std::endl;
           std::unordered_map<std::string, Node*>::const_iterator included = dict.find(word);
 
           if (included == dict.end()) {
@@ -218,6 +218,13 @@ int main( int argc, char* argv[] )
             currentNode->addLink(nextNode);
           }
 
+          currentNode = nextNode;
         } while (tweet.find(" ", pos) != std::string::npos);
     }
+
+    std::cout <<dict.at("the")->weights.size()  << std::endl;
+    for (int i = 0; i < dict.at("the")->weights.size() ; i++) {
+      std::cout << dict.at("the")->weights[i] << ": " << dict.at("the")->targets[i] << std::endl;
+    }
+
 }
