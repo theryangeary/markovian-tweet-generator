@@ -147,10 +147,10 @@ int main( int argc, char* argv[] )
     if( twitterObj.accountVerifyCredGet() )
     {
         twitterObj.getLastWebResponse( replyMsg );
-        printf( "\ntwitterClient:: twitCurl::accountVerifyCredGet web response:\n%s\n", replyMsg.c_str() );
+        //printf( "\ntwitterClient:: twitCurl::accountVerifyCredGet web response:\n%s\n", replyMsg.c_str() );
         json response = json::parse(replyMsg);
         auto name = response["name"].get<std::string>();
-        std::cout << name << std::endl;
+        //std::cout << name << std::endl;
     }
     else
     {
@@ -158,15 +158,10 @@ int main( int argc, char* argv[] )
         printf( "\ntwitterClient:: twitCurl::accountVerifyCredGet error:\n%s\n", replyMsg.c_str() );
     }
 
-    int numTweets = 4;
+    int numTweets = 150;
     twitterObj.timelineUserGet(true, false, numTweets, "BarackObama", false, true);
     twitterObj.getLastWebResponse(replyMsg);
     json response2 = json::parse(replyMsg);
-
-    //std::cout << response2 << std::endl;
-    for (int i = 0; i < numTweets - 1; i++) {
-      //std::cout << response2[i].at("full_text").get<std::string>() << std::endl;
-    }
 
     std::unordered_map<std::string, Node*> dict;
     Node* currentNode;
@@ -177,9 +172,11 @@ int main( int argc, char* argv[] )
     std::string tweet;
     std::string word;
 
-    for (int i = 0; i < numTweets - 1; i++) {
+    for (int i = 0; i < response2.size(); i++) {
       tweet = response2[i].at("full_text").get<std::string>();
       currentNode = startNode;
+
+      std::cout << tweet << std::endl;
 
       std::locale loc;
       std::string str = tweet;

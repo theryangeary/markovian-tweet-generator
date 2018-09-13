@@ -63,6 +63,17 @@ void Node::addLink(Node* newNode) {
 }
 
 Node* Node::getNextNode() {
-  return targets[0];
+  int count = 0;
+  for (int i = 0; i < weights.size(); i++) {
+    count += weights[i];
+  }
+  int selection = rand() % count;
+  for (int i = 0; i < weights.size(); i++) {
+    selection -= weights[i];
+    if (selection <= 0) {
+      return targets[i];
+    }
+  }
+  return NULL;
 }
 
