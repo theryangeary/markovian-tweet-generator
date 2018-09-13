@@ -222,9 +222,13 @@ int main( int argc, char* argv[] )
         } while (tweet.find(" ", pos) != std::string::npos);
     }
 
-    std::cout <<dict.at("the")->weights.size()  << std::endl;
-    for (int i = 0; i < dict.at("the")->weights.size() ; i++) {
-      std::cout << dict.at("the")->weights[i] << ": " << dict.at("the")->targets[i] << std::endl;
+    currentNode = dict.at(START);
+    int outputLength = 0;
+    
+    while (outputLength < TWEET_LENGTH) {
+      currentNode = currentNode->getNextNode();
+      std::cout << currentNode->value << " ";
+      outputLength += currentNode->value.length();
     }
-
+    std::cout << std::endl;
 }

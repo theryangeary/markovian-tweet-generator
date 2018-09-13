@@ -15,12 +15,15 @@
 #include <cstring>
 #include <unordered_map>
 #include <vector>
+#include <stdio.h>
+#include <stdlib.h>
 #include "oauthlib.h"
 #include "curl/curl.h"
 #include "include/twitcurl.h"
 #include "include/nlohmann/json.hpp"
 
 #define START "ASTARTINGWORDSORIDICULOUSITWOULDNEVERBEUSEDINATWEET"
+#define TWEET_LENGTH 280
 
 class Node {
   public:
@@ -31,6 +34,7 @@ class Node {
     bool increaseWeight(Node* targetNode);
     bool increaseWeight(int index);
     void addLink(Node* newNode);
+    Node* getNextNode();
 } ;
 
 void Node::setValue(std::string value) {
@@ -56,5 +60,9 @@ bool Node::increaseWeight(int index) {
 void Node::addLink(Node* newNode) {
   weights.push_back(1);
   targets.push_back(newNode);
+}
+
+Node* Node::getNextNode() {
+  return targets[0];
 }
 
