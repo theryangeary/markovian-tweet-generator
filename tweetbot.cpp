@@ -185,7 +185,7 @@ int main( int argc, char* argv[] )
 
       for (std::string::iterator it=str.begin(); it!=str.end() - 1; ++it)
       {
-        if (!std::isalpha(*it, loc) && !(*it == ' ') && it != str.end() -2) {
+        if (!std::isalpha(*it, loc) && !(*it == ' ') && it != str.end()-2) {
           str.erase(it, it+1);
         }
       }
@@ -196,6 +196,7 @@ int main( int argc, char* argv[] )
       do {
 
         word = tweet.substr(pos, tweet.find(" ", pos) - pos);
+	std::transform(word.begin(), word.end(), word.begin(), ::tolower);
         pos = tweet.find(" ", pos) + 1;
         std::unordered_map<std::string, Node*>::const_iterator included = dict.find(word);
 
@@ -227,4 +228,6 @@ int main( int argc, char* argv[] )
     }
     std::cout << outputTweet << std::endl;
 
+    // bool statusUpdateResult = twitterObj.statusUpdate(outputTweet);
+    // std::cout << statusUpdateResult << std::endl;
 }
