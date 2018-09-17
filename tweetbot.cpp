@@ -158,7 +158,7 @@ int main( int argc, char* argv[] )
         printf( "\ntwitterClient:: twitCurl::accountVerifyCredGet error:\n%s\n", replyMsg.c_str() );
     }
 
-    int numTweets = 150;
+    int numTweets = 95;
     twitterObj.timelineUserGet(true, false, numTweets, "BarackObama", false, true);
     twitterObj.getLastWebResponse(replyMsg);
     json response2 = json::parse(replyMsg);
@@ -172,51 +172,48 @@ int main( int argc, char* argv[] )
     std::string tweet;
     std::string word;
 
-    for (int i = 0; i < response2.size(); i++) {
+    
+    for (int i = 0; i < response2.size() - 1; i++) {
       tweet = response2[i].at("full_text").get<std::string>();
       currentNode = startNode;
-
-      std::cout << tweet << std::endl;
 
       std::locale loc;
       std::string str = tweet;
 
-      int pos = 0;
+      
       bool linkFound = false;
 
       for (std::string::iterator it=str.begin(); it!=str.end() - 1; ++it)
       {
-        if (!std::isalpha(*it, loc) && !(*it == ' ')) {
-          str.erase(pos, 1);
+        if (!std::isalpha(*it, loc) && !(*it == ' ') && it != str.end() -2) {
+          str.erase(it, it+1);
         }
-        pos++;
       }
 
       tweet = str;
 
-      pos = 0;
-        do {
+      int pos = 0;
+      do {
 
-          word = tweet.substr(pos, tweet.find(" ", pos) - pos);
-          pos = tweet.find(" ", pos) + 1;
-          //std::cout << word << std::endl;
-          std::unordered_map<std::string, Node*>::const_iterator included = dict.find(word);
+        word = tweet.substr(pos, tweet.find(" ", pos) - pos);
+        pos = tweet.find(" ", pos) + 1;
+        std::unordered_map<std::string, Node*>::const_iterator included = dict.find(word);
 
-          if (included == dict.end()) {
-            nextNode = new Node();
-            nextNode->value = word; 
-            dict.insert({word, nextNode});
-          }
-          else {
-            nextNode = included->second;
-          } 
+        if (included == dict.end()) {
+          nextNode = new Node();
+          nextNode->value = word; 
+          dict.insert({word, nextNode});
+        }
+        else {
+          nextNode = included->second;
+        } 
 
-          if (!currentNode->increaseWeight(nextNode)) {
-            currentNode->addLink(nextNode);
-          }
+        if (!currentNode->increaseWeight(nextNode)) {
+          currentNode->addLink(nextNode);
+        }
 
-          currentNode = nextNode;
-        } while (tweet.find(" ", pos) != std::string::npos);
+        currentNode = nextNode;
+      } while (tweet.find(" ", pos) != std::string::npos);
     }
 
     currentNode = dict.at(START);
@@ -224,8 +221,8 @@ int main( int argc, char* argv[] )
     
     while (outputLength < TWEET_LENGTH) {
       currentNode = currentNode->getNextNode();
-      std::cout << currentNode->value << " ";
+      //std::cout << currentNode->value << " ";
       outputLength += currentNode->value.length();
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
 }

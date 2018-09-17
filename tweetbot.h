@@ -67,7 +67,11 @@ Node* Node::getNextNode() {
   for (int i = 0; i < weights.size(); i++) {
     count += weights[i];
   }
-  int selection = rand() % count;
+  if (count == 0) {
+    return NULL;
+  }
+  int selection = rand(); 
+  selection = selection % count;
   for (int i = 0; i < weights.size(); i++) {
     selection -= weights[i];
     if (selection <= 0) {
