@@ -218,11 +218,13 @@ int main( int argc, char* argv[] )
 
     currentNode = dict.at(START);
     int outputLength = 0;
+    std::string outputTweet = "";
     
-    while (outputLength < TWEET_LENGTH) {
+    while (outputTweet.length() < TWEET_LENGTH) {
       currentNode = currentNode->getNextNode();
-      //std::cout << currentNode->value << " ";
-      outputLength += currentNode->value.length();
+      outputTweet += currentNode->value;
+      outputTweet += " ";
     }
-    //std::cout << std::endl;
+    std::cout << outputTweet << std::endl;
+
 }
