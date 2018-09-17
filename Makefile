@@ -1,5 +1,5 @@
-tweetbot: tweetbot.cpp
-	g++ tweetbot.cpp -I./include/ -L /usr/local/lib/ -ltwitcurl -o tweetbot
+tweetbot: tweetbot.cpp tweetbot.h
+	g++ tweetbot.cpp -I./include/ -L /usr/local/lib/ -ltwitcurl -o tweetbot -D_GLIBCXX_DEBUG
 
 debug: tweetbot.cpp
-	g++ tweetbot.cpp -g -I./include/ -L /usr/local/lib/ -ltwitcurl -o tweetbot
+	g++ tweetbot.cpp -g -I./include/ -L /usr/local/lib/ -ltwitcurl -o tweetbot -D_GLIBCXX_DEBUG
