@@ -217,17 +217,31 @@ int main( int argc, char* argv[] )
       } while (tweet.find(" ", pos) != std::string::npos);
     }
 
-    currentNode = dict.at(START);
-    int outputLength = 0;
-    std::string outputTweet = "";
-    
-    while (outputTweet.length() < TWEET_LENGTH) {
-      currentNode = currentNode->getNextNode();
-      outputTweet += currentNode->value;
-      outputTweet += " ";
-    }
-    std::cout << outputTweet << std::endl;
+    while(1) {
+	currentNode = dict.at(START);
+	int outputLength = 0;
+	std::string outputTweet = "";
 
-    // bool statusUpdateResult = twitterObj.statusUpdate(outputTweet);
-    // std::cout << statusUpdateResult << std::endl;
+	while (outputTweet.length() < TWEET_LENGTH) {
+	currentNode = currentNode->getNextNode();
+	outputTweet += currentNode->value;
+	outputTweet += " ";
+	}
+	std::cout << outputTweet << std::endl;
+
+
+	bool statusUpdateResult = twitterObj.statusUpdate(outputTweet);
+	if (statusUpdateResult) {
+	std::cout << "Tweet sent: \"" ;
+	}
+	else {
+	std::cout << "Tweet failed! \"" ;
+	}
+	std::cout << outputTweet << "\"\n" << std::endl;
+
+	sleep(5);
+    }
+    
+
+
 }

@@ -17,6 +17,7 @@
 #include <vector>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "oauthlib.h"
 #include "curl/curl.h"
 #include "include/twitcurl.h"
