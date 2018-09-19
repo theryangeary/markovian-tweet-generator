@@ -157,7 +157,7 @@ int main( int argc, char* argv[] )
     }
 
     int numTweets = 95;
-    twitterObj.timelineUserGet(true, false, numTweets, "BarackObama", false, true);
+    twitterObj.timelineUserGet(true, false, numTweets, "theryangeary", false, true);
     twitterObj.getLastWebResponse(replyMsg);
     json response2 = json::parse(replyMsg);
 
