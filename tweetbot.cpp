@@ -218,28 +218,41 @@ int main( int argc, char* argv[] )
     while(1) {
 	currentNode = dict.at(START);
 	int outputLength = 0;
-	std::string outputTweet = "";
+	std::string outputTweet;
+	outputTweet.reserve(TWEET_LENGTH * sizeof(char));
+	outputTweet = "";
 
 	while (outputTweet.length() < TWEET_LENGTH) {
-	currentNode = currentNode->getNextNode();
-	outputTweet += currentNode->value;
-	outputTweet += " ";
+	  if(currentNode->getNextNode() != NULL){
+	    currentNode = currentNode->getNextNode();
+	    if (outputTweet.length() + currentNode->value.length() < TWEET_LENGTH) {
+	      outputTweet += (std::string) currentNode->value;
+		outputTweet += " ";
+	    }
+	  }
+	  else {
+	    break;
+	  }
 	}
-	std::cout << outputTweet << std::endl;
-
 
 	bool statusUpdateResult = twitterObj.statusUpdate(outputTweet);
 	if (statusUpdateResult) {
-	std::cout << "Tweet sent: \"" ;
+	    std::cout << "Tweet sent: \"" ;
 	}
 	else {
-	std::cout << "Tweet failed! \"" ;
+	    std::cout << "Tweet failed! \"" ;
 	}
 	std::cout << outputTweet << "\"\n" << std::endl;
 
-	sleep(5);
-    }
+     	sleep(5);
+     }
     
+    
+    for (auto i : dict) {
+      free(i.second);
+      
+
+    }
 
 
 }
