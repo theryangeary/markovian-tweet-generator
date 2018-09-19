@@ -183,12 +183,12 @@ int main( int argc, char* argv[] )
       
       bool linkFound = false;
 
-      for (std::string::iterator it=str.begin(); it!=str.end() - 1; ++it)
-      {
-        if (!std::isalpha(*it, loc) && !(*it == ' ') && it != str.end()-2) {
-          str.erase(it, it+1);
-        }
-      }
+      // for (std::string::iterator it=str.begin(); it!=str.end() - 1; ++it)
+      // {
+      //   if (!std::isalpha(*it, loc) && !(*it == ' ') && it != str.end()-2) {
+      //     str.erase(it, it+1);
+      //   }
+      // }
 
       tweet = str;
 
