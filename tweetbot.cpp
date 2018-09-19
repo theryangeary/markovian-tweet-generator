@@ -147,10 +147,8 @@ int main( int argc, char* argv[] )
     if( twitterObj.accountVerifyCredGet() )
     {
         twitterObj.getLastWebResponse( replyMsg );
-        //printf( "\ntwitterClient:: twitCurl::accountVerifyCredGet web response:\n%s\n", replyMsg.c_str() );
         json response = json::parse(replyMsg);
         auto name = response["name"].get<std::string>();
-        //std::cout << name << std::endl;
     }
     else
     {
