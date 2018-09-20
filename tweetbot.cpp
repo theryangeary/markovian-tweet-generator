@@ -285,8 +285,7 @@ int main( int argc, char* argv[] )
 	}
 	std::cout << outputTweet << "\n" << std::endl;
 
-     	sleep(tweetTimer);
-    } while(daemon);
+    } while(daemon && !sleep(tweetTimer));
     
     
     for (auto i : dict) {
