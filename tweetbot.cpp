@@ -25,7 +25,7 @@ int main( int argc, char* argv[] )
     std::string userName( "" );
     std::string passWord( "" );
     std::string targetUser( "twitter" );
-    int tweetTimer = 60*60; // 15 minutes
+    int tweetTimer = 60*60; // 60 minutes
     bool live = false;
     bool daemon = false;
     if( argc > 4 )
