@@ -16,7 +16,7 @@ using json = nlohmann::json;
 
 void printUsage()
 {
-    printf( "\nUsage:\ntwitterClient -u username -p password\n" );
+    printf( "\nUsage:\ntwitterClient -u username -p password -t usernameToMimic\nOptional arguments:\n\t-d\n\t\trun continuously, generating tweets once in a while\n\t-w\n\t\twait time between tweets. Important to keep this long to avoid going over rate limits for the twitter API. If not running with -l make it as short as you want. 15 minutes by default.\n\t-l\n\t\tlive mode. Posts generated tweets to twitter as user specified as -u.\n\n" );
 }
 
 int main( int argc, char* argv[] )
