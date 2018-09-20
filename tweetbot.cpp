@@ -81,10 +81,12 @@ int main( int argc, char* argv[] )
 
     /* OAuth flow begins */
     /* Step 0: Set OAuth related params. These are got by registering your app at twitter.com */
-    twitterObj.getOAuth().setConsumerKey( std::string( "qtXuZOHGGa8KtxBUNcNdrFmnb" ) );
-    twitterObj.getOAuth().setConsumerSecret( std::string( "OIbeBOy4tf8y466ebsSCkGxXK5nlQ4rXUCqQdZFnwtqdViE8UW" ) );
 
     /* Step 1: Check if we alredy have OAuth access token from a previous run */
+    std::string myCustomerAccessTokenKey("");
+    std::string myCustomerAccessTokenSecret("");
+    std::ifstream customerTokenKeyIn;
+    std::ifstream customerTokenSecretIn;
     std::string myOAuthAccessTokenKey("");
     std::string myOAuthAccessTokenSecret("");
     std::ifstream oAuthTokenKeyIn;
@@ -92,6 +94,8 @@ int main( int argc, char* argv[] )
 
     oAuthTokenKeyIn.open( "access_token" );
     oAuthTokenSecretIn.open( "access_token_secret");
+    customerTokenKeyIn.open( "customer_token" );
+    customerTokenSecretIn.open( "customer_token_secret" );
 
     memset( tmpBuf, 0, 1024 );
     oAuthTokenKeyIn >> tmpBuf;
@@ -101,8 +105,21 @@ int main( int argc, char* argv[] )
     oAuthTokenSecretIn >> tmpBuf;
     myOAuthAccessTokenSecret = tmpBuf;
 
+    memset( tmpBuf, 0, 1024 );
+    customerTokenKeyIn >> tmpBuf;
+    myCustomerAccessTokenKey = tmpBuf;
+
+    memset( tmpBuf, 0, 1024 );
+    customerTokenSecretIn >> tmpBuf;
+    myCustomerAccessTokenSecret = tmpBuf;
+
+    twitterObj.getOAuth().setConsumerKey(myCustomerAccessTokenKey);
+    twitterObj.getOAuth().setConsumerSecret(myCustomerAccessTokenSecret);
+
     oAuthTokenKeyIn.close();
     oAuthTokenSecretIn.close();
+    customerTokenKeyIn.close();
+    customerTokenSecretIn.close();
 
     if( myOAuthAccessTokenKey.size() && myOAuthAccessTokenSecret.size() )
     {
