@@ -25,6 +25,9 @@
 
 #define START "ASTARTINGWORDSORIDICULOUSITWOULDNEVERBEUSEDINATWEET"
 #define TWEET_LENGTH 280
+#define TWEET_TIMER_FLAG "-w"
+#define LIVE_FLAG "-l"
+#define TARGET_FLAG "-t"
 
 class Node {
   public:

@@ -24,9 +24,12 @@ int main( int argc, char* argv[] )
     /* Get username and password from command line args */
     std::string userName( "" );
     std::string passWord( "" );
+    std::string targetUser( "" );
+    int tweetTimer = 60*15; // 15 minutes
+    bool live = false;
     if( argc > 4 )
     {
-        for( int i = 1; i < argc; i += 2 )
+        for( int i = 1; i < argc; i += 1 )
         {
             if( 0 == strncmp( argv[i], "-u", strlen("-u") ) )
             {
@@ -35,6 +38,19 @@ int main( int argc, char* argv[] )
             else if( 0 == strncmp( argv[i], "-p", strlen("-p") ) )
             {
                 passWord = argv[i+1];
+            }
+            else if( 0 == strncmp( argv[i], TWEET_TIMER_FLAG, strlen(TWEET_TIMER_FLAG) ) )
+            {
+	      tweetTimer = (int) strtol(argv[i+1], 0, 10);
+	      std::cout << tweetTimer << std::endl;
+            }
+            else if( 0 == strncmp( argv[i], LIVE_FLAG, strlen(LIVE_FLAG) ) )
+            {
+	      live = true;
+            }
+            else if( 0 == strncmp( argv[i], TARGET_FLAG, strlen(TARGET_FLAG) ) )
+            {
+	      targetUser = argv[i+1];
             }
         }
         if( ( 0 == userName.length() ) || ( 0 == passWord.length() ) )
@@ -148,7 +164,7 @@ int main( int argc, char* argv[] )
     {
         twitterObj.getLastWebResponse( replyMsg );
         json response = json::parse(replyMsg);
-        auto name = response["name"].get<std::string>();
+	auto name = response["name"].get<std::string>();
     }
     else
     {
@@ -156,8 +172,8 @@ int main( int argc, char* argv[] )
         printf( "\ntwitterClient:: twitCurl::accountVerifyCredGet error:\n%s\n", replyMsg.c_str() );
     }
 
-    int numTweets = 95;
-    twitterObj.timelineUserGet(true, false, numTweets, "theryangeary", false, true);
+    int numTweets = 200;
+    twitterObj.timelineUserGet(true, false, numTweets, targetUser, false, true);
     twitterObj.getLastWebResponse(replyMsg);
     json response2 = json::parse(replyMsg);
 
@@ -181,12 +197,12 @@ int main( int argc, char* argv[] )
       
       bool linkFound = false;
 
-      // for (std::string::iterator it=str.begin(); it!=str.end() - 1; ++it)
-      // {
-      //   if (!std::isalpha(*it, loc) && !(*it == ' ') && it != str.end()-2) {
-      //     str.erase(it, it+1);
-      //   }
-      // }
+      for (std::string::iterator it=str.begin(); it!=str.end() - 1; ++it)
+      {
+        if (*it == '\'' || *it == '(' || *it == ')') {
+          str.erase(it, it+1);
+        }
+      }
 
       tweet = str;
 
@@ -235,16 +251,20 @@ int main( int argc, char* argv[] )
 	  }
 	}
 
-	bool statusUpdateResult = twitterObj.statusUpdate(outputTweet);
-	if (statusUpdateResult) {
-	    std::cout << "Tweet sent: \"" ;
+	if (live) {
+	    bool statusUpdateResult = twitterObj.statusUpdate(outputTweet);
+	    twitterObj.getLastWebResponse(replyMsg);
+	    std::cout << replyMsg << std::endl;
+	    if (statusUpdateResult) {
+		std::cout << "Tweet sent: :" ;
+	    }
+	    else {
+		std::cout << "Tweet failed! :" ;
+	    }
 	}
-	else {
-	    std::cout << "Tweet failed! \"" ;
-	}
-	std::cout << outputTweet << "\"\n" << std::endl;
+	std::cout << outputTweet << "\n" << std::endl;
 
-     	sleep(5);
+     	sleep(tweetTimer);
      }
     
     
