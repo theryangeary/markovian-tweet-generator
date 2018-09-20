@@ -37,7 +37,7 @@ class Node {
     std::string value;
     void setValue(std::string value);
     bool increaseWeight(Node* targetNode);
-    bool increaseWeight(int index);
+    void increaseWeight(int index);
     void addLink(Node* newNode);
     Node* getNextNode();
 } ;
