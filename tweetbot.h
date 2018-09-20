@@ -28,6 +28,7 @@
 #define TWEET_TIMER_FLAG "-w"
 #define LIVE_FLAG "-l"
 #define TARGET_FLAG "-t"
+#define DAEMON_FLAG "-d"
 
 class Node {
   public:

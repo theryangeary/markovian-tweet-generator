@@ -24,9 +24,10 @@ int main( int argc, char* argv[] )
     /* Get username and password from command line args */
     std::string userName( "" );
     std::string passWord( "" );
-    std::string targetUser( "" );
+    std::string targetUser( "twitter" );
     int tweetTimer = 60*15; // 15 minutes
     bool live = false;
+    bool daemon = false;
     if( argc > 4 )
     {
         for( int i = 1; i < argc; i += 1 )
@@ -51,6 +52,10 @@ int main( int argc, char* argv[] )
             else if( 0 == strncmp( argv[i], TARGET_FLAG, strlen(TARGET_FLAG) ) )
             {
 	      targetUser = argv[i+1];
+            }
+            else if( 0 == strncmp( argv[i], DAEMON_FLAG, strlen(DAEMON_FLAG) ) )
+            {
+	      daemon = true;
             }
         }
         if( ( 0 == userName.length() ) || ( 0 == passWord.length() ) )
@@ -199,7 +204,7 @@ int main( int argc, char* argv[] )
 
       for (std::string::iterator it=str.begin(); it!=str.end() - 1; ++it)
       {
-        if (*it == '\'' || *it == '(' || *it == ')') {
+        if (*it == '\"' || *it == '(' || *it == ')') {
           str.erase(it, it+1);
         }
       }
@@ -231,7 +236,7 @@ int main( int argc, char* argv[] )
       } while (tweet.find(" ", pos) != std::string::npos);
     }
 
-    while(1) {
+    do {
 	currentNode = dict.at(START);
 	int outputLength = 0;
 	std::string outputTweet;
@@ -254,8 +259,7 @@ int main( int argc, char* argv[] )
 	if (live) {
 	    bool statusUpdateResult = twitterObj.statusUpdate(outputTweet);
 	    twitterObj.getLastWebResponse(replyMsg);
-	    std::cout << replyMsg << std::endl;
-	    if (statusUpdateResult) {
+	    if (!replyMsg.find("error"))  {
 		std::cout << "Tweet sent: :" ;
 	    }
 	    else {
@@ -265,7 +269,7 @@ int main( int argc, char* argv[] )
 	std::cout << outputTweet << "\n" << std::endl;
 
      	sleep(tweetTimer);
-     }
+    } while(daemon);
     
     
     for (auto i : dict) {
