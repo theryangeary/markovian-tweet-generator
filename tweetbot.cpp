@@ -276,7 +276,7 @@ int main( int argc, char* argv[] )
 	if (live) {
 	    bool statusUpdateResult = twitterObj.statusUpdate(outputTweet);
 	    twitterObj.getLastWebResponse(replyMsg);
-	    if (!replyMsg.find("error"))  {
+	    if (replyMsg.find("error") == std::string::npos)  {
 		std::cout << "Tweet sent: :" ;
 	    }
 	    else {
