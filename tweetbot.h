@@ -58,7 +58,7 @@ bool Node::increaseWeight(Node* targetNode) {
   return false;
 }
 
-bool Node::increaseWeight(int index) {
+void Node::increaseWeight(int index) {
   weights[index]++;
 }
 
