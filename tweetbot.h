@@ -40,6 +40,7 @@ class Node {
     void increaseWeight(int index);
     void addLink(Node* newNode);
     Node* getNextNode();
+    //~Node();
 } ;
 
 void Node::setValue(std::string value) {
@@ -86,3 +87,10 @@ Node* Node::getNextNode() {
   return NULL;
 }
 
+/* Node::~Node() { */
+/*   /\* for (int i = 0; i < targets.size(); i++) { *\/ */
+/*   /\*   if (targets[i] != NULL) { *\/ */
+/*   /\*     free(targets[i]); *\/ */
+/*   /\*   } *\/ */
+/*   /\* } *\/ */
+/* } */

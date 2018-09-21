@@ -287,12 +287,9 @@ int main( int argc, char* argv[] )
 
     } while(daemon && !sleep(tweetTimer));
     
-    
-    for (auto i : dict) {
-      free(i.second);
-      
-
+    for (std::unordered_map<std::string, Node*>::iterator it = dict.begin();
+	 it != dict.end(); it++) {
+      delete (it->second);
     }
-
 
 }
